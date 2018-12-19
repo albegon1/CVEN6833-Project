@@ -1,0 +1,5 @@
+book_filename: "CVEN6833-Project"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
