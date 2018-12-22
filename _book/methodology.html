@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis</title>
+  <meta name="description" content="The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis" />
+  
+  <meta name="twitter:description" content="The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure" />
+  
+
+<meta name="author" content="CU Boulder">
+
+
+<meta name="date" content="2018-12-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="research-problem.html">
+<link rel="next" href="final-words.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">CVEN 68833 - Project</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Abstract</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="previous-techniques-and-methods.html"><a href="previous-techniques-and-methods.html"><i class="fa fa-check"></i><b>3</b> Previous techniques and methods</a></li>
+<li class="chapter" data-level="4" data-path="research-problem.html"><a href="research-problem.html"><i class="fa fa-check"></i><b>4</b> Research problem</a><ul>
+<li class="chapter" data-level="4.1" data-path="research-problem.html"><a href="research-problem.html#description-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Description of the data</a></li>
+<li class="chapter" data-level="4.2" data-path="research-problem.html"><a href="research-problem.html#hypothesis-and-diagnostics"><i class="fa fa-check"></i><b>4.2</b> Hypothesis and diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="methodology.html"><a href="methodology.html"><i class="fa fa-check"></i><b>5</b> Methodology</a><ul>
+<li class="chapter" data-level="5.1" data-path="methodology.html"><a href="methodology.html#extreme-clustering"><i class="fa fa-check"></i><b>5.1</b> Extreme Clustering</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="methodology.html"><a href="methodology.html#adding-climate-variables-to-bridge-location"><i class="fa fa-check"></i><b>5.1.1</b> Adding climate variables to bridge location</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="methodology.html"><a href="methodology.html#principal-component-analysis"><i class="fa fa-check"></i><b>5.2</b> Principal Component Analysis</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="methodology.html"><a href="methodology.html#multinomial-regression"><i class="fa fa-check"></i><b>5.2.1</b> Multinomial regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/albegon1/CVEN6833-Project" target="blank">Github repository</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="methodology" class="section level1">
+<h1><span class="header-section-number">Section 5</span> Methodology</h1>
+<div id="extreme-clustering" class="section level2">
+<h2><span class="header-section-number">5.1</span> Extreme Clustering</h2>
+<p>The first analysis consisted of a modification of a clustering technique - partition around medoids - used in <span class="citation">Bracken et al. (<a href="#ref-brackenSpatialVariabilitySeasonal2015">2015</a>)</span>.</p>
+<p>3,000 case studies were randomly sampled from the selected data to alleviate the simulation. The structural condition time series and the lat, long position of the sample was the only variables provided. A range from 2 to 20 clusters was analyzed. Figures <a href="methodology.html#fig:pam-2cluster">5.2</a> and <a href="methodology.html#fig:pam-6cluster">5.3</a> show the optimal and third-best performance according to the average silhouette method reproduced in figure <a href="methodology.html#fig:pam-silh">5.1</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:pam-silh"></span>
+<img src="CVEN6833-Project_files/figure-html/pam-silh-1.png" alt="Average silhouete profile for each number of clusters" width="80%" />
+<p class="caption">
+Figure 5.1: Average silhouete profile for each number of clusters
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:pam-2cluster"></span>
+<img src="CVEN6833-Project_files/figure-html/pam-2cluster-1.png" alt="Optimal PAM 2 - Clusters" width="80%" />
+<p class="caption">
+Figure 5.2: Optimal PAM 2 - Clusters
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:pam-6cluster"></span>
+<img src="CVEN6833-Project_files/figure-html/pam-6cluster-1.png" alt="Sub-optimal PAM 5 - Clusters" width="80%" />
+<p class="caption">
+Figure 5.3: Sub-optimal PAM 5 - Clusters
+</p>
+</div>
+<p>The similarity between the pattern showed by the 6-cluster simulation and the North American Climate zones/types made us reflect about a potential connection. That is why new variables associated with monthly extreme temperatures and annual precipitation were added as covariates.</p>
+<div class="figure">
+<img src="https://people.eng.unimelb.edu.au/mpeel/Koppen/North_America.jpg" alt="Climate types according to Koppen classification" />
+<p class="caption">Climate types according to Koppen classification</p>
+</div>
+<div id="adding-climate-variables-to-bridge-location" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Adding climate variables to bridge location</h3>
+<p>Monthly climate-division data from the National Centers for Environmental Information <span class="citation">(Vose et al. <a href="#ref-voseImprovedHistoricalTemperature2014">2014</a>)</span> was collected for the period 1991-2017. For each of the 344 datapoints scatterd throughout the Continental US, the anual monthly maximum and minimum temperature and annual precipitation was aggregated.</p>
+<p>To translate this information into bridge-located data, a local polynomial regression with a low alpha (0.05) and linear degree was used for each climate variable. Fig</p>
+<div class="figure" style="text-align: center"><span id="fig:clim-reg"></span>
+<img src="CVEN6833-Project_files/figure-html/clim-reg-1.png" alt="1992 Annual maximum temperature - nClimDiv data and locfit regression" width="80%" />
+<p class="caption">
+Figure 5.4: 1992 Annual maximum temperature - nClimDiv data and locfit regression
+</p>
+</div>
+</div>
+</div>
+<div id="principal-component-analysis" class="section level2">
+<h2><span class="header-section-number">5.2</span> Principal Component Analysis</h2>
+<p>A second analysis was carried out using PCA. In this case all variables with exception of the deficiency condition of the bridge were considered in the simulation. As a first approach, the climate variables were not included (Fig. <a href="methodology.html#fig:lambdas">5.5</a>). Repeating the process with tmax, tmin, and prec lead to a greater explanation of the variance in firsts four PC (see fig. <a href="methodology.html#fig:lambdas-clim">5.6</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:lambdas"></span>
+<img src="CVEN6833-Project_files/figure-html/lambdas-1.png" alt="Variance explained by each PC" width="80%" />
+<p class="caption">
+Figure 5.5: Variance explained by each PC
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:lambdas-clim"></span>
+<img src="CVEN6833-Project_files/figure-html/lambdas-clim-1.png" alt="Variance explained by each PC, including climate variables" width="80%" />
+<p class="caption">
+Figure 5.6: Variance explained by each PC, including climate variables
+</p>
+</div>
+<p>With the second analysis (climate - considered), the influence of each eigenvector on the attributes of our dataset was plotted and analyzed (fig. <a href="methodology.html#fig:eigen">5.7</a>)</p>
+<div class="figure" style="text-align: center"><span id="fig:eigen"></span>
+<img src="CVEN6833-Project_files/figure-html/eigen-1.png" alt="Influence of eigenvector on each attribute" width="100%" />
+<p class="caption">
+Figure 5.7: Influence of eigenvector on each attribute
+</p>
+</div>
+<div id="multinomial-regression" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Multinomial regression</h3>
+<p>The first 4 PC were used to fit a multinomial regression on the structural condition of the bridge, as they represent almost 60% of the variance of the model. The best model using step AIC criteria was the one including all four PC as covariates.</p>
+<p>Two statistics were calculated to assess the accuracy of the regression. First, the ranked probability score for the model without climate variables was of 7.5 %. That is, the increase in the accuracy by predicting through the model instead of the count based probabilities was of 7.5 %. The introduction of the climate variables (tmax, tmin, prec) increased the ranked probability score skill from 7.5 % to 8.6 %.</p>
+<p>Additionally, a confusion matrix <code>caret::confusionMatrix</code> was calculated to evaluate the “false positives” and “false negatives” the model predicted. Table <a href="#tab:confusion"><strong>??</strong></a> shows how hard it is for the model to be accurate, as the number of “false 1 identified as such” is similar to non identified “true 1”. Only a small fraction of “true 1” are identified correctly.</p>
+<pre><code>##           Reference
+## Prediction    1    2    3
+##          1   78  151  613
+##          2  144  303 1249
+##          3  633 1236 8563</code></pre>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-brackenSpatialVariabilitySeasonal2015">
+<p>Bracken, C., B. Rajagopalan, M. Alexander, and S. Gangopadhyay. 2015. “Spatial Variability of Seasonal Extreme Precipitation in the Western United States.” <em>Journal of Geophysical Research: Atmospheres</em> 120 (10): 4522–33. doi:<a href="https://doi.org/10.1002/2015JD023205">10.1002/2015JD023205</a>.</p>
+</div>
+<div id="ref-voseImprovedHistoricalTemperature2014">
+<p>Vose, Russell S., Scott Applequist, Mike Squires, Imke Durre, Matthew J. Menne, Claude N. Williams, Chris Fenimore, Karin Gleason, and Derek Arndt. 2014. “Improved Historical Temperature and Precipitation Time Series for U.S. Climate Divisions.” <em>J. Appl. Meteor. Climatol.</em> 53 (5): 1232–51. doi:<a href="https://doi.org/10.1175/JAMC-D-13-0248.1">10.1175/JAMC-D-13-0248.1</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="research-problem.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["CVEN6833-Project.pdf", "CVEN6833-Project.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

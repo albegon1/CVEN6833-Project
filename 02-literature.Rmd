@@ -1,3 +1,7 @@
-# Literature
+# Previous techniques and methods
 
-Here is a review of existing methods.
+The NBI has been previously exploited to predict bridge ratings, i.e. structural condition, from different elements such as deck, superstructure, substructure,  or culvert. The vast amount of data available, totalling more than 600,000 bridges, has been tackled by subsetting the inventory into smaller samples using different criteria. @contreras-nietoDevelopmentLinearModels2014 used the steel and prestressed concrete bridges in Oklahoma, while @saeedPerformanceEvaluationLife2017 worked on the Indiana database.
+
+Related studies have been carried out using neural networks, Markov models, and regression trees [@veshoskyComparativeAnalysisBridge1994] to the bridge superstructure condition. @bektasbasakaldemirUsingClassificationTrees2013 applied classification and regression trees to predict bridge ratings and later on used recursive partitioning @bektasUseRecursivePartitioning2017. 
+
+According to @contreras-nietoCharacterizationSteelBridge2018, in the majority of the previous studies the model validation was not performed and the results showed a low adjusted $R^2$ value (around 0.4). This problem resulted in the unability of the models to predict structurally deficient ratings, as they only represent a small fraction (6% - 9%) of the inventory.

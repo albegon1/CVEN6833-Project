@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis</title>
+  <meta name="description" content="The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis" />
+  
+  <meta name="twitter:description" content="The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure" />
+  
+
+<meta name="author" content="Alejandro Belenguer">
+
+
+<meta name="date" content="2018-12-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="previous-techniques-and-methods.html">
+<link rel="next" href="methodology-and-results.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">CVEN 68833 - Project</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="previous-techniques-and-methods.html"><a href="previous-techniques-and-methods.html"><i class="fa fa-check"></i><b>2</b> Previous techniques and methods</a></li>
+<li class="chapter" data-level="3" data-path="research-problem.html"><a href="research-problem.html"><i class="fa fa-check"></i><b>3</b> Research problem</a><ul>
+<li class="chapter" data-level="3.1" data-path="research-problem.html"><a href="research-problem.html#description-of-the-data"><i class="fa fa-check"></i><b>3.1</b> Description of the data</a></li>
+<li class="chapter" data-level="3.2" data-path="research-problem.html"><a href="research-problem.html#hypothesis-and-diagnostics"><i class="fa fa-check"></i><b>3.2</b> Hypothesis and diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="methodology-and-results.html"><a href="methodology-and-results.html"><i class="fa fa-check"></i><b>4</b> Methodology and results</a><ul>
+<li class="chapter" data-level="4.1" data-path="methodology-and-results.html"><a href="methodology-and-results.html#extreme-clustering"><i class="fa fa-check"></i><b>4.1</b> Extreme Clustering</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="methodology-and-results.html"><a href="methodology-and-results.html#adding-climate-variables-to-bridge-location"><i class="fa fa-check"></i><b>4.1.1</b> Adding climate variables to bridge location</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="methodology-and-results.html"><a href="methodology-and-results.html#principal-component-analysis"><i class="fa fa-check"></i><b>4.2</b> Principal Component Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="methodology-and-results.html"><a href="methodology-and-results.html#multinomial-regression"><i class="fa fa-check"></i><b>4.2.1</b> Multinomial regression</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="methodology-and-results.html"><a href="methodology-and-results.html#self-organizing-maps"><i class="fa fa-check"></i><b>4.3</b> Self Organizing Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/albegon1/CVEN6833-Project" target="blank">Github repository</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="research-problem" class="section level1">
+<h1><span class="header-section-number">Section 3</span> Research problem</h1>
+<p>This work tries to provide a better insight into the topic by using novel data mining techniques. In particular, three non-supervised learning techniques will be used to generate “statistically similar” subsets of data.</p>
+<p>The first one used is the clustering of extremes (partition around medioids) technique <span class="citation">(Bracken et al. <a href="#ref-brackenSpatialVariabilitySeasonal2015">2015</a>)</span>. As a second approach, a classical Principal Component Analysis is carried out. Finally, Self-Organizing Maps will be used to compare with previous results.</p>
+<p>With the results from the non-supervised approach, a multinomial regression will be used to predict the strucural condition of the bridges, and compare those with regression models without previous clustering.</p>
+<div id="description-of-the-data" class="section level2">
+<h2><span class="header-section-number">3.1</span> Description of the data</h2>
+<p>The NBI database accounts for more than 136 parameters of the bridge inventory gathered at each bridge inspection. More information about the methodology can be consulted in the Recording and coding guide for the structure inventory and appraisal of the nation’s bridges <span class="citation">Weseman (<a href="#ref-wesemanRecordingCodingGuide1995">1995</a>)</span>.</p>
+<p>The forementioned previous work found a fraction of those variables to be statistically significant when using regression models to predict bridge condition. Working from those, the author has selected the same to guarantee enough breadth of scope in the analysis.</p>
+<table>
+<caption><span id="tab:tab-01">Table 3.1: </span>Selected variables</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Code number</th>
+<th align="left">Numeric type</th>
+<th align="left">Temporal type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Structure number</td>
+<td align="left">008</td>
+<td align="left">Character</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="even">
+<td align="left">Latitude</td>
+<td align="left">016</td>
+<td align="left">Numeric</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="odd">
+<td align="left">Longitude</td>
+<td align="left">017</td>
+<td align="left">Numeric</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="even">
+<td align="left">Year built</td>
+<td align="left">027</td>
+<td align="left">Numeric</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="odd">
+<td align="left">Average Daily Traffic</td>
+<td align="left">029</td>
+<td align="left">Numeric</td>
+<td align="left">Time series</td>
+</tr>
+<tr class="even">
+<td align="left">Design load</td>
+<td align="left">031</td>
+<td align="left">Binary</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="odd">
+<td align="left">Service under bridge</td>
+<td align="left">042B</td>
+<td align="left">Categorical</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="even">
+<td align="left">Structure kind</td>
+<td align="left">043A</td>
+<td align="left">Categorical</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="odd">
+<td align="left">Structure type</td>
+<td align="left">043B</td>
+<td align="left">Categorical</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="even">
+<td align="left">Length of maximum span</td>
+<td align="left">048</td>
+<td align="left">Numeric</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="odd">
+<td align="left">Structure length</td>
+<td align="left">049</td>
+<td align="left">Numeric</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="even">
+<td align="left">Bridge roadway width</td>
+<td align="left">051</td>
+<td align="left">Numeric</td>
+<td align="left">Stationary</td>
+</tr>
+<tr class="odd">
+<td align="left">Deck Condition</td>
+<td align="left">058</td>
+<td align="left">Categorical</td>
+<td align="left">Time series</td>
+</tr>
+<tr class="even">
+<td align="left">Superstructure condition</td>
+<td align="left">059</td>
+<td align="left">Categorical</td>
+<td align="left">Time series</td>
+</tr>
+<tr class="odd">
+<td align="left">Substructure condition</td>
+<td align="left">060</td>
+<td align="left">Categorical</td>
+<td align="left">Time series</td>
+</tr>
+<tr class="even">
+<td align="left">Culvert condition</td>
+<td align="left">062</td>
+<td align="left">Categorical</td>
+<td align="left">Time series</td>
+</tr>
+<tr class="odd">
+<td align="left">Year reconstructed</td>
+<td align="left">106</td>
+<td align="left">Binary</td>
+<td align="left">Time series</td>
+</tr>
+<tr class="even">
+<td align="left">Percentage of Truck in ADT</td>
+<td align="left">109</td>
+<td align="left">Numeric</td>
+<td align="left">Time series</td>
+</tr>
+</tbody>
+</table>
+<p>The table <a href="research-problem.html#tab:tab-01">3.1</a> summarizes the variables names and numeric type adopted departing from <span class="citation">Weseman (<a href="#ref-wesemanRecordingCodingGuide1995">1995</a>)</span>. In order to simplify the anlysis, some variables have been transformed, according to the following description:</p>
+<ol style="list-style-type: decimal">
+<li><p>Latitude, Longitude: considered full numeric precision available (hundredths of a second).</p></li>
+<li><p>Year built: used to calculate bridge age.</p></li>
+<li><p>ADT: considered full precision. However, the variable considered has been the Truck Average Daily Traffic, as it is the one considered significant <span class="citation">(Saeed et al. <a href="#ref-saeedPerformanceEvaluationLife2017">2017</a>)</span>. The TADT is obtained multiplicating the ADT by the percentage of trucks in ADT (code 109).</p></li>
+<li><p>Design load. Transformed to binary. 1 if code is known, 0 if not.</p></li>
+<li><p>Structure kind and type: the original data considers different building materials for the first case, and different bearing mechanisms for the latter. The bridge selection process lead to consider only three kinds of superstructure material: steel, reinforced concrete, and prestressed concrete. Similarly, the most frequent structural type was girder / multibeam bridge. Thus, only this category was retained.</p></li>
+<li><p>Length of maximum span: only bridges between 15 and 50 m. of maximum span length have been considered with the objective of comparing similar structures. Within the range, full numeric values are used. Figures <a href="research-problem.html#fig:max-span">3.1</a> and <a href="research-problem.html#fig:max-span-cut">3.2</a> show the process followed.</p></li>
+</ol>
+<div class="figure" style="text-align: center"><span id="fig:max-span"></span>
+<img src="CVEN6833-Project_files/figure-html/max-span-1.png" alt="Max. span length distribution of selected bridges" width="80%" />
+<p class="caption">
+Figure 3.1: Max. span length distribution of selected bridges
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:max-span-cut"></span>
+<img src="CVEN6833-Project_files/figure-html/max-span-cut-1.png" alt="Max. span length bins used to select bridges for the analysis" width="80%" />
+<p class="caption">
+Figure 3.2: Max. span length bins used to select bridges for the analysis
+</p>
+</div>
+<ol start="7" style="list-style-type: decimal">
+<li><p>Structure length: The wide range of lengths was transformed into four bins: from 15 to 50 m., from 50 to 100 m., from 100 to 200 m., and longer. The median length values were used to replace previous values (25, 75, 150, and 500 m., respectively).</p></li>
+<li><p>Bridge total width: full numeric precision considered.</p></li>
+<li><p>Deck, superstructure, substructure, and culvert condition: Original data adopted a 0 to 9 scale to classify the specific bridge condition. However, a new variable considering the structural deficiency has been used to reflect the definition given by the Federal Highway Administration. The term is defined as the classification given to a bridge which has any component (Item 58, 59, 60, or 62) in Poor or worse condition (code of 4 or less).</p></li>
+<li><p>Year reconstructed: A fraction of the bridges has had major interventions that exceed the regular maintenance practice. A binary variable indicating if a reconstruction has existed at a given year has been used to increase regression accuracy.</p></li>
+</ol>
+</div>
+<div id="hypothesis-and-diagnostics" class="section level2">
+<h2><span class="header-section-number">3.2</span> Hypothesis and diagnostics</h2>
+<p>The selected covariates were used to generate a subset of the entire dataset. The criteria followed to reduce the number of case studies was directly related to quality control and easiness of manipulation.</p>
+<p>First, only bridges with the same name in 1992 and 2017 were retained. All bridges been replaced or renamed were consequently excluded. Additionally, only bridges with known location were included. Note that older bridges are a consequence of choosing this criteria, as shown in figure <a href="research-problem.html#fig:age-select">3.3</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:age-select"></span>
+<img src="CVEN6833-Project_files/figure-html/age-select-1.png" alt="Age of selected bridges (1992 vs. 2017)" width="80%" />
+<p class="caption">
+Figure 3.3: Age of selected bridges (1992 vs. 2017)
+</p>
+</div>
+<p>Second, the condition rating of the selected bridges had to be known. The values were in a few cases omitted for certain intermediate years. In this cases the previous known value was used to generate continuous data. Figures <a href="research-problem.html#fig:cond-mean">3.4</a> and <a href="research-problem.html#fig:cond-min">3.5</a> depict the how fewer structurally deficient bridges and greater close-to-deficiency bridges phenomena occur simultaneously.</p>
+<div class="figure" style="text-align: center"><span id="fig:cond-mean"></span>
+<img src="CVEN6833-Project_files/figure-html/cond-mean-1.png" alt="Mean condition of selected bridges (1992 vs. 2017)" width="80%" />
+<p class="caption">
+Figure 3.4: Mean condition of selected bridges (1992 vs. 2017)
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:cond-min"></span>
+<img src="CVEN6833-Project_files/figure-html/cond-min-1.png" alt="Minimum condition of selected bridges (1992 vs. 2017)" width="80%" />
+<p class="caption">
+Figure 3.5: Minimum condition of selected bridges (1992 vs. 2017)
+</p>
+</div>
+<p>Third, the maximum span length, structure kind, and structure type matched the criteria described above. Only 15-50 max. span, steel/concrete/prestressed concrete, multibeam bridges were then considered. Figures <a href="research-problem.html#fig:maxspan-dist">3.6</a>, <a href="research-problem.html#fig:span-dist">3.7</a>, and <a href="research-problem.html#fig:width-dist">3.8</a> show the property distribution on the selected bridges.</p>
+<div class="figure" style="text-align: center"><span id="fig:maxspan-dist"></span>
+<img src="CVEN6833-Project_files/figure-html/maxspan-dist-1.png" alt="Distribution of max. span on selected bridges" width="80%" />
+<p class="caption">
+Figure 3.6: Distribution of max. span on selected bridges
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:span-dist"></span>
+<img src="CVEN6833-Project_files/figure-html/span-dist-1.png" alt="Distribution of total length on selected bridges" width="80%" />
+<p class="caption">
+Figure 3.7: Distribution of total length on selected bridges
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:width-dist"></span>
+<img src="CVEN6833-Project_files/figure-html/width-dist-1.png" alt="Distribution of bridge width on selected bridges" width="80%" />
+<p class="caption">
+Figure 3.8: Distribution of bridge width on selected bridges
+</p>
+</div>
+<p>Finally, only bridges in the continental US STRANHET corridors were used. The STRAHNET corridor is formed by those highways considered strategically important to the defense of the United States.</p>
+<p>A total sample of 12,970 bridges scattered throughout the entire continental US was used in the analysis, including 26 years of record. Figure <a href="research-problem.html#fig:age-span">3.9</a> maps them on the US territory.</p>
+<div class="figure" style="text-align: center"><span id="fig:age-span"></span>
+<img src="CVEN6833-Project_files/figure-html/age-span-1.png" alt="Age and span spatial distribution of selected bridges (2017)" width="100%" />
+<p class="caption">
+Figure 3.9: Age and span spatial distribution of selected bridges (2017)
+</p>
+</div>
+<p>The resulting distribution of the structural condition for the time series is, on average: * Structurally deficient (rating of 4 or under): 3.86 % * At risk of being deficient (rating of 5): 15 % * Non-deficient: 81.13 %</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-brackenSpatialVariabilitySeasonal2015">
+<p>Bracken, C., B. Rajagopalan, M. Alexander, and S. Gangopadhyay. 2015. “Spatial Variability of Seasonal Extreme Precipitation in the Western United States.” <em>Journal of Geophysical Research: Atmospheres</em> 120 (10): 4522–33. doi:<a href="https://doi.org/10.1002/2015JD023205">10.1002/2015JD023205</a>.</p>
+</div>
+<div id="ref-wesemanRecordingCodingGuide1995">
+<p>Weseman, W. A. 1995. “Recording and Coding Guide for the Structure Inventory and Appraisal of the Nation’s Bridges.” <em>United States Department of Transportation (Ed.), Federal Highway Administration, USA</em> 119.</p>
+</div>
+<div id="ref-saeedPerformanceEvaluationLife2017">
+<p>Saeed, Tariq Usman, Milhan Moomen, Anwaar Ahmed, Jackeline Murillo-Hoyos, Matthew Volovski, and Samuel Labi. 2017. “Performance Evaluation and Life Prediction of Highway Concrete Bridge Superstructure Across Design Types.” <em>Journal of Performance of Constructed Facilities</em> 31 (5): 04017052. doi:<a href="https://doi.org/10.1061/(ASCE)CF.1943-5509.0001051">10.1061/(ASCE)CF.1943-5509.0001051</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="previous-techniques-and-methods.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="methodology-and-results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["CVEN6833-Project.pdf", "CVEN6833-Project.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

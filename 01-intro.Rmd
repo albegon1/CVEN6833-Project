@@ -1,21 +1,35 @@
 # Introduction {#intro}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+The aging trend of the U.S. bridge inventory has been arisen by the ASCE in the recent years [@asce2017InfrastructureReport2017]. An increasing population of older bridges creates a challenging scenario for the future bridge maintenance strategy. However, the observed reduction of the structurally defficient bridges is a first step forward.
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+```{r bridge-age, fig.cap='Age distribution of US bridges (1992 vs. 2017)', out.width='80%', fig.asp=.75, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
+# Get age in 1992 vs. 2017
+# age.1992 = 1992 - as.numeric(nbi1992$YEAR_BUILT_027) %>% as.data.frame(.)
+# age.2017 = 2017 - as.numeric(nbi2017$YEAR_BUILT_027) %>% as.data.frame(.)
+
+# save(age.1992,age.2017,file = "C:/Users/alexb/Google Drive/CVEN 6833 ADAT/zz Homeworks/temp/nbi.RData")
+
+load("C:/Users/alexb/Google Drive/CVEN 6833 ADAT/zz Homeworks/temp/nbi.RData")
+
+# plot.df = data.frame("1992" = age.1992, "2017" = age.2017)
+
+ggplot(age.1992, aes(x=.)) + 
+  # geom_histogram(aes(y=..density..), colour="black", fill="white",
+                 # group = "1992") +
+  xlim (0,150) +
+  geom_density(alpha=.2, fill="#FF6666",adjust = 2) +
+  # geom_histogram(data = age.2017, aes(x=., y=..density..), 
+                 # colour="black", fill=NA) +
+  geom_density(data = age.2017,aes(x=., y=..density..), alpha=.2, fill="blue",
+               adjust = 2) +
+  labs(x = "Age") +
+  theme(plot.caption = element_text(hjust = 0.5,size = rel(1.1))) +
+  scale_fill_manual(name="Year",values=c("#FF6666","blue"),labels=c("1992","2017"))
+  
+# qplot(age.1992,geom = "histogram")
 ```
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+Figure \@ref(fig:bridge-age) shows the formentioned aging effect. The data has been downloaded from the publicly accessible National Bridge Inventory (NBI) of the U.S. Federal Highway Administration. The horizontal shift between peak densities represent the time lag (26 years), while the vertical shift shows a decrease in the total population density.
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
-
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+Stablishing the right criteria to sustain bridge condition on safe levels is a key factor in a problem of limited resource allocation. Thus, the study of the relation between bridge characteristics and bridge performance can uncover better bridge maintenance policies.

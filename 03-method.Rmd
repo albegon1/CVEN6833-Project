@@ -1,3 +1,147 @@
-# Methods
+# Research problem
 
-We describe our methods in this chapter.
+This work tries to provide a better insight into the topic by using novel data mining techniques. In particular, three non-supervised learning techniques will be used to generate "statistically similar" subsets of data.
+
+The first one used is the clustering of extremes (partition around medioids) technique [@brackenSpatialVariabilitySeasonal2015].
+As a second approach, a classical Principal Component Analysis is carried out.
+Finally, Self-Organizing Maps will be used to compare with previous results.
+
+With the results from the non-supervised approach, a multinomial regression will be used to predict the strucural condition of the bridges, and compare those with regression models without previous clustering.
+
+## Description of the data
+
+The NBI database accounts for more than 136 parameters of the bridge inventory gathered at each bridge inspection. More information about the methodology can be consulted in the Recording and coding guide for the structure inventory and appraisal of the nation's bridges @wesemanRecordingCodingGuide1995.
+
+The forementioned previous work found a fraction of those variables to be statistically significant when using regression models to predict bridge condition. Working from those, the author has selected the same to guarantee enough breadth of scope in the analysis.
+
+```{r tab-01, tidy=FALSE,echo=FALSE}
+knitr::kable(
+  read_excel("C:/Users/alexb/Google Drive/CVEN 6833 ADAT/zz Homeworks/Semester Project/selected_variables.xlsx"), caption = 'Selected variables',
+  booktabs = TRUE
+)
+```
+
+The table \@ref(tab:tab-01) summarizes the variables names and numeric type adopted departing from @wesemanRecordingCodingGuide1995. In order to simplify the anlysis, some variables have been transformed, according to the following description:
+
+1. Latitude, Longitude: considered full numeric precision available (hundredths of a second).
+
+2. Year built: used to calculate bridge age.
+
+3. ADT: considered full precision. However, the variable considered has been the Truck Average Daily Traffic, as it is the one considered significant [@saeedPerformanceEvaluationLife2017]. The TADT is obtained multiplicating the ADT by the percentage of trucks in ADT (code 109).
+
+4. Design load. Transformed to binary. 1 if code is known, 0 if not.
+
+5. Structure kind and type: the original data considers different building materials for the first case, and different bearing mechanisms for the latter. The bridge selection process lead to consider only three kinds of superstructure material: steel, reinforced concrete, and prestressed concrete. Similarly, the most frequent structural type was girder / multibeam bridge. Thus, only this category was retained.
+
+6. Length of maximum span: only bridges between 15 and 50 m. of maximum span length have been considered with the objective of comparing similar structures. Within the range, full numeric values are used. Figures \@ref(fig:max-span) and \@ref(fig:max-span-cut) show the process followed.
+
+```{r max-span, fig.cap='Max. span length distribution of selected bridges', out.width='80%', fig.asp=.35, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+load("max.span.rds")
+load("max.span.cut.rds")
+ggplot() +
+  geom_histogram(data = data.frame(span), aes(x=span),bins = 200) +
+  xlim(0,150)
+```
+```{r max-span-cut, fig.cap='Max. span length bins used to select bridges for the analysis', out.width='80%', fig.asp=.35, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+ggplot() +
+  geom_bar(data = data.frame(levels(span.cut)[span.cut]), mapping = aes(x=span.cut),stat = "count")
+```
+
+7. Structure length: The wide range of lengths was transformed into four bins: from 15 to 50 m., from 50 to 100 m., from 100 to 200 m., and longer. The median length values were used to replace previous values (25, 75, 150, and 500 m., respectively).
+
+8. Bridge total width: full numeric precision considered.
+
+9. Deck, superstructure, substructure, and culvert condition: Original data adopted a 0 to 9 scale to classify the specific bridge condition. However, a new variable considering the structural deficiency  has been used to reflect the definition given by the Federal Highway Administration. The term is defined as the classification given to a bridge which has any component (Item 58, 59, 60, or 62) in Poor or worse condition (code of 4 or less).
+
+10. Year reconstructed: A fraction of the bridges has had major interventions that exceed the regular maintenance practice. A binary variable indicating if a reconstruction has existed at a given year has been used to increase regression accuracy.
+
+## Hypothesis and diagnostics
+
+The selected covariates were used to generate a subset of the entire dataset. The criteria followed to reduce the number of case studies was directly related to quality control and easiness of manipulation.
+
+First, only bridges with the same name in 1992 and 2017 were retained. All bridges been replaced or renamed were consequently excluded. Additionally, only bridges with known location were included. Note that older bridges are a consequence of choosing this criteria, as shown in figure \@ref(fig:age-select). 
+
+```{r age-select, fig.cap='Age of selected bridges (1992 vs. 2017)', out.width='80%', fig.asp=.5, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+load("age.select.1992.rds")
+load("age.select.2017.rds")
+
+ggplot()+
+  geom_histogram(data = age.select.1992, aes(x=X1992),colour="black", fill="white",bins = 99)+
+  xlim(0,100) + 
+  ylim(0,750) +
+  geom_histogram(data = age.select.2017, aes(x=X2017),colour="blue", fill=NA,bins = 99) + 
+  labs(x = "", y = "Number of bridges")
+
+```
+
+Second, the condition rating of the selected bridges had to be known. The values were in a few cases omitted for certain intermediate years. In this cases the previous known value was used to generate continuous data. Figures \@ref(fig:cond-mean) and \@ref(fig:cond-min) depict the how fewer structurally deficient bridges and greater close-to-deficiency bridges phenomena occur simultaneously.
+
+```{r cond-mean, fig.cap='Mean condition of selected bridges (1992 vs. 2017)', out.width='80%', fig.asp=.50, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+load("condition.RData")
+
+ggplot()+
+  geom_line(data=cond1992,aes(x=as.numeric(levels(cond1992$.)[cond1992$.]),y=Freq,colour="1992")) +
+  geom_line(data=cond2017,aes(x=as.numeric(levels(cond2017$.)[cond2017$.]),y=Freq,colour="2017")) + 
+  scale_color_manual("",breaks=c("1992","2017"),
+                     values=c("black","red")) +
+  labs(x="") +
+  scale_x_continuous(breaks=seq(0,9,1)) + 
+  theme(legend.position=c(0.1,0.9))
+```
+```{r cond-min, fig.cap='Minimum condition of selected bridges (1992 vs. 2017)', out.width='80%', fig.asp=.50, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+ggplot()+
+  geom_line(data=m.cond1992,aes(x=as.numeric(levels(m.cond1992$.)[m.cond1992$.]),
+                                y=Freq,colour="1992")) +
+  geom_line(data=m.cond2017,aes(x=as.numeric(levels(m.cond2017$.)[m.cond2017$.]),
+                                y=Freq,colour="2017")) + 
+  scale_color_manual("",breaks=c("1992","2017"),
+                     values=c("black","red")) +
+  labs(x="") +
+  scale_x_continuous(breaks=seq(0,9,1)) + 
+  theme(legend.position=c(0.1,0.9))
+```
+
+Third, the maximum span length, structure kind, and structure type matched the criteria described above. Only 15-50 max. span, steel/concrete/prestressed concrete, multibeam bridges were then considered. Figures \@ref(fig:maxspan-dist), \@ref(fig:span-dist), and \@ref(fig:width-dist) show the property distribution on the selected bridges.
+
+```{r maxspan-dist, fig.cap='Distribution of max. span on selected bridges', out.width='80%', fig.asp=.35, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+load("bridge.dim.RData")
+ggplot() +
+  geom_histogram(data = select.max.span, aes(x=max.span),colour="white") +
+  xlim(15,50)
+```
+```{r span-dist, fig.cap='Distribution of total length on selected bridges', out.width='80%', fig.asp=.35, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+ggplot() +
+  geom_bar(data = select.span, aes(x=span),colour="white")
+```
+```{r width-dist, fig.cap='Distribution of bridge width on selected bridges', out.width='80%', fig.asp=.35, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+ggplot() +
+  geom_histogram(data = select.width, aes(x=width),colour="white") +
+  xlim(5,50)
+```
+
+Finally, only bridges in the continental US STRANHET corridors were used. The STRAHNET corridor is formed by those highways considered strategically important to the defense of the United States.
+
+A total sample of 12,970 bridges scattered throughout the entire continental US was used in the analysis, including 26 years of record. Figure \@ref(fig:age-span) maps them on the US territory.
+
+```{r age-span, fig.cap='Age and span spatial distribution of selected bridges (2017)', out.width='100%', fig.align='center', echo=FALSE, warning=FALSE, message=FALSE}
+load("age.span.rds")
+load("latlon.RData")
+
+ggplot() +
+  geom_polygon( data=map_data("state"), 
+                aes(x=long, y=lat, group = group),
+                colour="black",fill="lightgrey") +
+  geom_point(data = df,aes(x = londec,y = latdec,
+                           color = age,size = span),alpha = 0.5) + 
+  scale_size_continuous(range = c(0.1, 4)) +
+  scale_color_gradientn(colours =rev(brewer.pal(5,"RdYlBu"))) +
+  coord_map("lambert", parameters = c(30, 0),
+            xlim = c(-125,-70)) +
+  theme_minimal()
+```
+
+The resulting distribution of the structural condition for the time series is, on average:
+* Structurally deficient (rating of 4 or under): 3.86 %
+* At risk of being deficient (rating of 5): 15 %
+* Non-deficient: 81.13 % 
+
