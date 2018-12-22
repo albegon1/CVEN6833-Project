@@ -1,3 +1,27 @@
+--- 
+title: "Assessing the aging infrastructure through data-mining of the National Bridge Inventory: an exploratory analysis"
+author: "Alejandro Belenguer"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [references.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "The paper uses different statistical techniques to gain knowledge on the challenges faced by aging bridge infrastructure"
+---
+
+```{r paper.libraries, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+libr=c("ggplot2","magrittr","readxl","RColorBrewer","kohonen")
+lapply(libr, require,character.only = TRUE)
+```
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
 # Introduction {#intro}
 
 The aging trend of the U.S. bridge inventory has been arisen by the ASCE in the recent years [@asce2017InfrastructureReport2017]. An increasing population of older bridges creates a challenging scenario for the future bridge maintenance strategy. However, the observed reduction of the structurally defficient bridges is a first step forward.

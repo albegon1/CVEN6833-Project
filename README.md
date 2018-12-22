@@ -1,1 +1,11 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Please see the page "Get Started" at https://bookdown.org/ for how to compile this example.
+## CVEN6833 - HW#3
+
+## Topics
+
+* National Bridge Inventory
+* Machine Learning 
+
+Access [here](https://albegon1.github.io/CVEN6833-Project/intro.html)
+
+All of the content of this repository is licensed 
+[CC0](https://creativecommons.org/publicdomain/zero/1.0/).
